@@ -1,0 +1,24 @@
+/* Person.module.css */
+.rotatingShadow {
+    animation: rotate 5s infinite linear;
+    box-shadow: 0 0 20px rgba(83, 3, 3, 0.5);
+  }
+  
+  @keyframes rotate {
+    0% {
+      box-shadow: 0 0 20px rgba(107, 5, 5, 0.5);
+    }
+    25% {
+      box-shadow: 10px 10px 20px rgba(169, 31, 31, 0.5);
+    }
+    50% {
+      box-shadow: 0 10px 20px rgba(150, 32, 69, 0.5);
+    }
+    75% {
+      box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.5);
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+  }
+  
