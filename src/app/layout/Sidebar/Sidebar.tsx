@@ -25,9 +25,16 @@ export default function Sidebar({ setCurrentPage }: SideBarProps) {
     setCurrentPage(page);
   };
 
+  const toTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <div className="rounded-lg flex flex-col bg-[#CDE8E5] px-2 shadow-xl shadow-gray-600 fixed bottom-0 left-0 right-0 lg:static h-[85px] lg:h-[422px] lg:w-[98px]">
-      <div className="flex gap-[40px] py-3 justify-between flex-row lg:flex-col px-1 lg:my-0">
+    <div className="rounded-lg md:duration-0 duration-1000 flex flex-col bg-[#CDE8E5] px-2 shadow-xl shadow-gray-600 fixed bottom-0 left-0 right-0 lg:static h-[85px] lg:h-[422px] lg:w-[98px]">
+      <div
+        className="flex gap-[40px] py-3 justify-between flex-row lg:flex-col px-1 lg:my-0"
+        onClick={toTop}
+      >
         {items.map((item, index) => (
           <div
             key={index}
@@ -39,7 +46,9 @@ export default function Sidebar({ setCurrentPage }: SideBarProps) {
             }`}
           >
             {item.icon}
-            <h3 className="text-xs lg:text-base hidden lg:block">{item.name}</h3>
+            <h3 className="text-xs lg:text-base hidden lg:block">
+              {item.name}
+            </h3>
           </div>
         ))}
       </div>

@@ -1,7 +1,5 @@
-"use client";
-
 import Container from "@/components/container/Container";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./Person.module.css";
 import {
   GithubOutlined,
@@ -13,6 +11,8 @@ export default function Person() {
   const [titles, setTitles] = useState(["Web Developer", "Us Frontend Dev"]);
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+  const ref = useRef<HTMLDivElement>(null); // Tipe ref sebagai HTMLDivElement
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,6 +21,21 @@ export default function Person() {
 
     return () => clearInterval(interval);
   }, [titles]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (ref.current) {
+        const { bottom } = ref.current.getBoundingClientRect();
+        // Set isSticky hanya pada layar kecil (mobile)
+        setIsSticky(bottom <= 0 && window.innerWidth <= 767);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // Social Media
   const socialMedia = [
@@ -46,11 +61,7 @@ export default function Person() {
     {
       title: "My CV",
       content: (
-        <a
-          href="/CV_Rully_Lukmansyah.pdf"
-          download
-          className="underline"
-        >
+        <a href="/CV_Rully_Lukmansyah.pdf" download className="underline">
           Download CV Here
         </a>
       ),
@@ -62,7 +73,7 @@ export default function Person() {
       className={`w-full relative pt-14 lg:pt-20 h-auto lg:h-[600px] ${styles.rotatingShadow}`}
     >
       <div
-        className="z-[1] w-[140px] lg:w-[175px] h-[140px] lg:h-[175px] absolute rounded-2xl top-[-90px] left-[50%] transform -translate-x-[50%]"
+        className="z-[1] w-[140px] hover:scale-[1.1] duration-1000 lg:w-[175px] h-[140px] lg:h-[175px] absolute rounded-2xl top-[-90px] left-[50%] transform -translate-x-[50%]"
         style={{
           backgroundImage: "url('/me.svg')",
           backgroundSize: "contain",
@@ -71,10 +82,15 @@ export default function Person() {
         }}
       ></div>
 
-      <div className="flex flex-col items-center justify-center">
+      <div
+        ref={ref}
+        className={`flex flex-col items-center justify-center ${
+          isSticky ? "sticky top-0 bg-white py-4 shadow-md z-10" : ""
+        }`}
+      >
         <p>Rully Lukmansyah</p>
         <div className="w-[60%] bg-[#7AB2B2] rounded-lg py-2 flex justify-center">
-          <h3 className="title">{titles[currentTitleIndex]}</h3>
+          <h3 className="text-[15px]">{titles[currentTitleIndex]}</h3>
         </div>
         <div className="flex gap-4 px-4 flex-wrap my-4">
           {socialMedia.map((item, index) => (
@@ -96,9 +112,9 @@ export default function Person() {
           {showDetails ? "Tutup" : "Selengkapnya"}
         </button>
         <div
-          className={`bg-[#7AB2B2] w-[90%] mb-6 rounded-xl py-[14px] h-auto lg:h-[300px] ${
-            showDetails ? "block" : "hidden lg:block"
-          }`}
+          className={`bg-[#7AB2B2] w-[90%] mb-6 rounded-xl overflow-hidden transition-max-height duration-1000 ${
+            showDetails ? "max-h-[500px]" : "max-h-0"
+          } lg:max-h-[300px] lg:mb-6`}
         >
           {cpPerson.map((item, index) => (
             <div
@@ -106,7 +122,7 @@ export default function Person() {
               className="border border-b-2 border-t-0 border-l-0 border-r-0 my-4 px-[15%]"
             >
               <h4>{item.title}</h4>
-              <h3>{item.content}</h3>
+              <h3 className="text-[15px]">{item.content}</h3>
             </div>
           ))}
         </div>
