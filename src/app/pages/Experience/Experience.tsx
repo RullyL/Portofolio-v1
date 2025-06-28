@@ -53,12 +53,14 @@ export default function Experience() {
         >
           <div>
             <h3 className="text-lg lg:text-2xl">
-              - Graduate Of SMK Yadika Soreang, Software Engineering
+              - Graduate Of SMK Yadika Soreang, Software Engineering (2021 -
+              2024)
             </h3>
-            <h3 className="text-lg lg:text-2xl hover:text-blue-300">
-              <Link href="https://nusantech.com/">
-                - Internship At PT Nusantech
-              </Link>
+            <h3 className="text-lg lg:text-2xl">
+              - Internship at PT Nusantech (2023)
+            </h3>
+            <h3 className="text-lg lg:text-2xl">
+              - Junior Frontend Developer at PT Nusantech (2024 – Present)
             </h3>
           </div>
         </div>
