@@ -53,7 +53,7 @@ export default function Skills() {
           textVisible ? "opacity-100" : "opacity-0"
         }`}
       >
-        <h2 className="text-center">My Skills</h2>
+        <h2 className="text-center text-black dark:text-white">My Skills</h2>
       </div>
       <div
         className={`px-4 sm:px-16 transition-opacity duration-1000 ${

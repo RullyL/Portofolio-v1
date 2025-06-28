@@ -16,9 +16,10 @@ export default function RootLayout({
 }>) {
   const [currentPage, setCurrentPage] = useState("About");
   const [fadeIn, setFadeIn] = useState(false);
-  const [showAlert, setShowAlert] = useState(true);
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
+    // Prevent inspect & right click
     const handleContextMenu = (e: { preventDefault: () => any }) =>
       e.preventDefault();
     const handleKeyDown = (e: {
@@ -26,17 +27,12 @@ export default function RootLayout({
       key: string;
       preventDefault: () => void;
     }) => {
-      if (
-        e.ctrlKey &&
-        (e.key === "u" || e.key === "s" || e.key === "i" || e.key === "j")
-      ) {
+      if (e.ctrlKey && ["u", "s", "i", "j"].includes(e.key)) {
         e.preventDefault();
       }
     };
-
     document.addEventListener("contextmenu", handleContextMenu);
     document.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.removeEventListener("contextmenu", handleContextMenu);
       document.removeEventListener("keydown", handleKeyDown);
@@ -44,6 +40,7 @@ export default function RootLayout({
   }, []);
 
   useEffect(() => {
+    // Fade-in animation
     setFadeIn(true);
   }, []);
 
@@ -53,10 +50,18 @@ export default function RootLayout({
   }, [currentPage]);
 
   useEffect(() => {
-    // Menampilkan alert sekali saat komponen dimuat pertama kali
-    alert("THIS WEB UNDER MAINTENANCE");
-    setShowAlert(false); // Menutup alert setelah ditampilkan sekali
+    const storedTheme = localStorage.getItem("theme") || "light";
+    setTheme(storedTheme);
+    document.documentElement.classList.add(storedTheme);
   }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(newTheme);
+  };
 
   const renderPage = () => {
     switch (currentPage) {
@@ -76,6 +81,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="root-layout">
+        <div className="theme-toggle absolute top-4 right-4 z-50">
+          <button onClick={toggleTheme} className="p-2 rounded">
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
+        </div>
+
         <div className="person-container">
           <Person />
         </div>

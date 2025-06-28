@@ -12,13 +12,12 @@ export default function Person() {
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-  const ref = useRef<HTMLDivElement>(null); // Tipe ref sebagai HTMLDivElement
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, [titles]);
 
@@ -26,18 +25,13 @@ export default function Person() {
     const handleScroll = () => {
       if (ref.current) {
         const { bottom } = ref.current.getBoundingClientRect();
-        // Set isSticky hanya pada layar kecil (mobile)
         setIsSticky(bottom <= 0 && window.innerWidth <= 767);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Social Media
   const socialMedia = [
     {
       icon: <GithubOutlined style={{ fontSize: "24px" }} />,
@@ -53,7 +47,6 @@ export default function Person() {
     },
   ];
 
-  // Contact Person
   const cpPerson = [
     { title: "Phone", content: "+62 898 6081 372" },
     { title: "Email", content: "example@email.com" },
@@ -84,14 +77,18 @@ export default function Person() {
 
       <div
         ref={ref}
-        className={`flex flex-col items-center justify-center ${
-          isSticky ? "sticky top-0 bg-white py-4 shadow-md z-10" : ""
+        className={`flex flex-col items-center justify-center transition-colors duration-300 ${
+          isSticky
+            ? "sticky top-0 bg-white dark:bg-slate-900 py-4 shadow-md z-10"
+            : ""
         }`}
       >
-        <p>Rully Lukmansyah</p>
-        <div className="w-[60%] bg-[#7AB2B2] rounded-lg py-2 flex justify-center">
+        <p className="text-black dark:dark:text-white text-black">Rully Lukmansyah</p>
+
+        <div className="w-[60%] bg-[#7AB2B2] dark:bg-[#334155] dark:text-white text-black rounded-lg py-2 flex justify-center transition-colors duration-300">
           <h3 className="text-[15px]">{titles[currentTitleIndex]}</h3>
         </div>
+
         <div className="flex gap-4 px-4 flex-wrap my-4">
           {socialMedia.map((item, index) => (
             <a
@@ -99,20 +96,22 @@ export default function Person() {
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-all hover:bg-slate-700 hover:shadow-lg hover:shadow-gray-600 w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#7AB2B2] text-white"
+              className="transition-all hover:bg-slate-700 hover:shadow-lg hover:shadow-gray-600 w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#7AB2B2] dark:bg-[#334155] dark:text-white text-black"
             >
               {item.icon}
             </a>
           ))}
         </div>
+
         <button
           onClick={() => setShowDetails(!showDetails)}
-          className="lg:hidden mb-5 bg-[#7AB2B2] text-white py-2 px-4 rounded-lg mt-4"
+          className="lg:hidden mb-5 bg-[#7AB2B2] dark:bg-[#334155] dark:text-white text-black py-2 px-4 rounded-lg mt-4 transition-colors duration-300"
         >
           {showDetails ? "Tutup" : "Selengkapnya"}
         </button>
+
         <div
-          className={`bg-[#7AB2B2] w-[90%] mb-6 rounded-xl overflow-hidden transition-max-height duration-1000 ${
+          className={`bg-[#7AB2B2] dark:bg-[#334155] dark:text-white text-black w-[90%] mb-6 rounded-xl overflow-hidden transition-all duration-700 ${
             showDetails ? "max-h-[500px]" : "max-h-0"
           } lg:max-h-[300px] lg:mb-6`}
         >
@@ -121,8 +120,8 @@ export default function Person() {
               key={index}
               className="border border-b-2 border-t-0 border-l-0 border-r-0 my-4 px-[15%]"
             >
-              <h4>{item.title}</h4>
-              <h3 className="text-[15px]">{item.content}</h3>
+              <h4 className="dark:text-white text-black">{item.title}</h4>
+              <h3 className="text-[15px] dark:text-white text-black">{item.content}</h3>
             </div>
           ))}
         </div>

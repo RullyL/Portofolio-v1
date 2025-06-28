@@ -8,7 +8,7 @@ interface TitleProps {
 export default function Title({ name }: TitleProps) {
   return (
     <>
-      <div className="flex gap-4 items-center rounded-md">
+      <div className="text-black dark:text-white flex gap-4 items-center rounded-md">
         <h1>{name}</h1> <Line />
       </div>
     </>
