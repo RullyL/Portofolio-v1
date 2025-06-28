@@ -116,16 +116,23 @@ p {
   font-weight: 600;
 }
 
-[data-theme='light'] input,
-[data-theme='light'] input::placeholder,
-[data-theme='light'] textarea::placeholder,
-[data-theme='light'] .ant-input::placeholder,
-[data-theme='light'] .ant-form-item-label > label,
-[data-theme='light'] .ant-input-textarea::placeholder {
-  color: #cbd5e1 !important;
+.light input::placeholder,
+.light textarea::placeholder,
+.light .ant-input::placeholder,
+.light .ant-form-item-label > label,
+.light .ant-input-textarea::placeholder {
+  color: #334155 !important;
   opacity: 1;
 }
 
+.dark input::placeholder,
+.dark textarea::placeholder,
+.dark .ant-input::placeholder,
+.dark .ant-form-item-label > label,
+.dark .ant-input-textarea::placeholder {
+  color: #cbd5e1 !important;
+  opacity: 1;
+}
 
 
 @layer utilities {
